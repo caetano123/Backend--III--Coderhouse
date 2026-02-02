@@ -32,7 +32,7 @@ https://hub.docker.com/r/caee007/adoptions-app
 
 Clonar el repositorio:
 
-git clone <url-del-repositorio>
+git clone https://github.com/caetano123/Backend--III--Coderhouse.git .
 cd <nombre-del-proyecto>
 
 
