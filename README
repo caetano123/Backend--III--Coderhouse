@@ -1,0 +1,131 @@
+🐾 API Adoptions – Users, Pets & Adoptions
+
+API REST desarrollada con Node.js, Express y MongoDB para la gestión de usuarios, mascotas y adopciones.
+El proyecto incluye documentación con Swagger y tests funcionales usando Mocha, Chai y Supertest.
+
+🚀 Tecnologías utilizadas
+
+Node.js
+
+Express
+
+MongoDB
+
+Mongoose
+
+Swagger (OpenAPI)
+
+Mocha
+
+Chai
+
+Supertest
+
+📦 Instalación
+
+Clonar el repositorio:
+
+git clone <url-del-repositorio>
+cd <nombre-del-proyecto>
+
+
+Instalar dependencias:
+
+npm install
+
+
+Asegurarse de tener MongoDB corriendo localmente.
+
+▶️ Ejecución del proyecto
+
+Para levantar el servidor en modo desarrollo:
+
+npm run dev
+
+
+El servidor quedará disponible en:
+
+http://localhost:8080
+
+📘 Documentación API (Swagger)
+
+La documentación interactiva de la API se encuentra en:
+
+http://localhost:8080/docs/
+
+
+Desde allí se pueden probar todos los endpoints disponibles.
+
+🔗 Endpoints principales
+👤 Users
+
+GET /api/users
+
+POST /api/sessions/register
+
+🐶 Pets
+
+GET /api/pets
+
+POST /api/pets
+
+❤️ Adoptions
+
+GET /api/adoptions
+
+GET /api/adoptions/:aid
+
+POST /api/adoptions/:uid/:pid
+
+🧪 Tests
+
+El proyecto incluye tests funcionales que validan:
+
+Creación de usuarios
+
+Creación de mascotas
+
+Creación de adopciones
+
+Error por mascota ya adoptada
+
+Error por usuario inexistente
+
+Error por adopción inexistente
+
+Obtención de usuarios, mascotas y adopciones
+
+Ejecutar tests
+npm run test
+
+
+Los tests utilizan una base de datos independiente:
+
+mongodb://localhost:27017/adoptions_test
+
+
+La base de datos se limpia automáticamente antes y después de cada ejecución.
+
+Resultado esperado
+9 passing
+
+🗂️ Estructura del proyecto
+src/
+├── controllers/
+├── models/
+├── routes/
+├── app.js
+└──server.js
+
+test/
+└── supertest.test.js
+
+✅ Estado del proyecto
+
+✔ API funcional
+
+✔ Swagger operativo
+
+✔ Tests pasando correctamente
+
+✔ Listo para entrega académica

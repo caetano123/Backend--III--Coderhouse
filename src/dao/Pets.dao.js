@@ -14,6 +14,9 @@ export default class Pet {
         return petModel.create(doc);
     }
 
+    saveMany = (docs) => petModel.insertMany(docs);
+
+
     update = (id,doc) =>{
         return petModel.findByIdAndUpdate(id,{$set:doc})
     }
@@ -21,4 +24,6 @@ export default class Pet {
     delete = (id) =>{
         return petModel.findByIdAndDelete(id);
     }
+    
+
 }

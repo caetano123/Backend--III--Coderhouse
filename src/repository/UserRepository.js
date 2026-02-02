@@ -13,4 +13,6 @@ export default class UserRepository extends GenericRepository{
         return this.getBy({_id:id})
     }
     
+    createMany = (users) => this.dao.saveMany(users);
+    
 }

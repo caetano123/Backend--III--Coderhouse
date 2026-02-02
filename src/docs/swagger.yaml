@@ -1,0 +1,500 @@
+openapi: 3.0.1
+
+info:
+  title: Adoptions API
+  description: Documentación completa del sistema (Users, Pets y Adoptions)
+  version: 1.0.0
+
+tags:
+  - name: Users
+    description: Gestión de usuarios
+  - name: Pets
+    description: Gestión de mascotas
+  - name: Adoptions
+    description: Gestión de adopciones
+
+paths:
+  # ======================
+  # USERS
+  # ======================
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags: [Users]
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User' # <--- Referencia al esquema de usuario
+              example:
+                status: success
+                payload:
+                  - _id: "69810c5bf1174da168347b6a"
+                    first_name: Juan
+                    last_name: Pérez
+                    email: juan@mail.com
+                    role: user
+                    pets:
+                      - "69810c5bf1174da168347b6d"
+                  - _id: "69810c5bf1174da168347b6b"
+                    first_name: Ana
+                    last_name: Gómez
+                    email: ana@mail.com
+                    role: admin
+                    pets: []
+
+  /api/users/{uid}:
+    get:
+      summary: Obtener un usuario por ID
+      tags: [Users]
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6a"
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              example:
+                status: success
+                payload:
+                  _id: "69810c5bf1174da168347b6a"
+                  first_name: Juan
+                  last_name: Pérez
+                  email: juan@mail.com
+                  role: user
+                  pets:
+                    - "69810c5bf1174da168347b6d"
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              example:
+                status: error
+                error: Usuario no encontrado
+    put:
+      summary: Actualizar un usuario
+      tags: [Users]
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6a"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              first_name: Juan Carlos
+              last_name: Pérez
+              email: juan.carlos@mail.com
+              role: user
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              example:
+                status: success
+                message: Usuario actualizado correctamente
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              example:
+                status: error
+                error: Usuario no encontrado
+    delete:
+      summary: Eliminar un usuario
+      tags: [Users]
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6a"
+      responses:
+        "200":
+          description: Usuario eliminado
+          content:
+            application/json:
+              example:
+                status: success
+                message: Usuario eliminado correctamente
+        "400":
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  # ======================
+  # PETS
+  # ======================
+  /api/pets:
+    get:
+      summary: Obtener todas las mascotas
+      tags: [Pets]
+      responses:
+        "200":
+          description: Lista de mascotas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pet' # <--- Referencia al esquema de mascota
+              example:
+                status: success
+                payload:
+                  - _id: "69810c5bf1174da168347b6d"
+                    name: Max
+                    specie: dog
+                    birthDate: "2022-05-10T00:00:00.000Z"
+                    adopted: false
+                    owner: null
+                    image: null
+                  - _id: "69810c5bf1174da168347b6e"
+                    name: Luna
+                    specie: cat
+                    birthDate: "2021-08-21T00:00:00.000Z"
+                    adopted: true
+                    owner: "69810c5bf1174da168347b6a"
+                    image: "https://example.com/luna.jpg"
+    post:
+      summary: Crear una nueva mascota
+      tags: [Pets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Rocky
+              specie: dog
+              birthDate: "2023-01-15T00:00:00.000Z"
+      responses:
+        "201":
+          description: Mascota creada
+          content:
+            application/json:
+              example:
+                status: success
+                payload:
+                  _id: "69810c5bf1174da168347b6f"
+                  name: Rocky
+                  specie: dog
+                  birthDate: "2023-01-15T00:00:00.000Z"
+                  adopted: false
+                  owner: null
+                  image: null
+        "400":
+          description: Datos inválidos
+          content:
+            application/json:
+              example:
+                status: error
+                error: Incomplete values
+
+  /api/pets/{pid}:
+    get:
+      summary: Obtener mascota por ID
+      tags: [Pets]
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6d"
+      responses:
+        "200":
+          description: Mascota encontrada
+          content:
+            application/json:
+              example:
+                status: success
+                payload:
+                  _id: "69810c5bf1174da168347b6d"
+                  name: Max
+                  specie: dog
+                  birthDate: "2022-05-10T00:00:00.000Z"
+                  adopted: false
+                  owner: null
+                  image: null
+        "404":
+          description: Mascota no encontrada
+          content:
+            application/json:
+              example:
+                status: error
+                error: Pet not found
+    put:
+      summary: Actualizar mascota
+      tags: [Pets]
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6d"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Maximus
+              adopted: true
+              owner: "69810c5bf1174da168347b6a"
+      responses:
+        "200":
+          description: Mascota actualizada
+          content:
+            application/json:
+              example:
+                status: success
+                message: Pet updated
+    delete:
+      summary: Eliminar mascota
+      tags: [Pets]
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6d"
+      responses:
+        "200":
+          description: Mascota eliminada
+          content:
+            application/json:
+              example:
+                status: success
+                message: Pet deleted
+
+  # ======================
+  # ADOPTIONS
+  # ======================
+  /api/adoptions:
+    get:
+      summary: Obtener todas las adopciones
+      tags: [Adoptions]
+      responses:
+        "200":
+          description: Lista de adopciones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Adoption' 
+              example:
+                status: success
+                payload:
+                  - _id: "69811aaaf1174da168347b70"
+                    owner: "69810c5bf1174da168347b6a"
+                    pet: "69810c5bf1174da168347b6d"
+
+  /api/adoptions/{uid}/{pid}:
+    post:
+      summary: Crear una adopción
+      tags: [Adoptions]
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6a"
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69810c5bf1174da168347b6d"
+      responses:
+        "201":
+          description: Adopción creada
+          content:
+            application/json:
+              example:
+                status: success
+                message: Pet adopted successfully
+                payload:
+                  _id: "69811aaaf1174da168347b72"
+                  owner: "69810c5bf1174da168347b6a"
+                  pet: "69810c5bf1174da168347b6d"
+        "400":
+          description: Mascota ya adoptada
+          content:
+            application/json:
+              example:
+                status: error
+                error: Pet already adopted
+        "404":
+          description: Usuario o mascota inexistente
+          content:
+            application/json:
+              example:
+                status: error
+                error: User or Pet not found
+                
+  /api/adoptions/{aid}:
+    get:
+      summary: Obtener una adopción por ID
+      tags: [Adoptions]
+      parameters:
+        - name: aid
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "69811aaaf1174da168347b70"
+      responses:
+        "200":
+          description: Adopción encontrada
+          content:
+            application/json:
+              example:
+                status: success
+                payload:
+                  _id: "69811aaaf1174da168347b70"
+                  owner: "69810c5bf1174da168347b6a"
+                  pet: "69810c5bf1174da168347b6d"
+        "404":
+          description: Adopción no encontrada
+          content:
+            application/json:
+              example:
+                status: error
+                error: Adoption not found
+
+                
+# ======================
+# COMPONENTES (SCHEMAS)
+# ======================
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "69810c5bf1174da168347b6a"
+        first_name:
+          type: string
+          example: "Juan"
+        last_name:
+          type: string
+          example: "Pérez"
+        email:
+          type: string
+          format: email
+          example: "juan@mail.com"
+        role:
+          type: string
+          enum: [user, admin]
+          example: "user"
+        pets:
+          type: array
+          items:
+            type: string
+          example: ["69810c5bf1174da168347b6d"]
+
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "69810c5bf1174da168347b6d"
+        name:
+          type: string
+          example: "Max"
+        specie:
+          type: string
+          example: "dog"
+        birthDate:
+          type: string
+          format: date-time
+          example: "2022-05-10T00:00:00.000Z"
+        adopted:
+          type: boolean
+          example: false
+        owner:
+          type: string
+          nullable: true
+          example: null
+        image:
+          type: string
+          nullable: true
+          example: "https://example.com/photo.jpg"
+
+    PetUpdate:
+      type: object
+      required:
+        - name
+        - specie
+      properties:
+        name:
+          type: string
+        specie:
+          type: string
+        birthDate:
+          type: string
+          format: date-time
+
+    Adoption:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "69811aaaf1174da168347b70"
+        owner:
+          type: string
+          description: ID del usuario adoptante
+          example: "69810c5bf1174da168347b6a"
+        pet:
+          type: string
+          description: ID de la mascota adoptada
+          example: "69810c5bf1174da168347b6d"
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "error"
+        error:
+          type: string
+          example: "Mensaje descriptivo del error"
