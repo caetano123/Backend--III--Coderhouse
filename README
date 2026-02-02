@@ -21,6 +21,13 @@ Chai
 
 Supertest
 
+
+## 🐳 Imagen en Docker Hub
+
+La imagen del proyecto se encuentra disponible en Docker Hub:
+
+https://hub.docker.com/r/caee007/adoptions-app
+
 📦 Instalación
 
 Clonar el repositorio:
@@ -109,16 +116,6 @@ La base de datos se limpia automáticamente antes y después de cada ejecución.
 Resultado esperado
 9 passing
 
-🗂️ Estructura del proyecto
-src/
-├── controllers/
-├── models/
-├── routes/
-├── app.js
-└──server.js
-
-test/
-└── supertest.test.js
 
 ✅ Estado del proyecto
 
