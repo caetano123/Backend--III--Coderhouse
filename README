@@ -28,6 +28,10 @@ La imagen del proyecto se encuentra disponible en Docker Hub:
 
 https://hub.docker.com/r/caee007/adoptions-app
 
+Para iniciar el contenedor:
+docker run -p 8080:8080 caee007/adoptions-app:latest
+
+
 📦 Instalación
 
 Clonar el repositorio:
